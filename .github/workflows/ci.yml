@@ -9,7 +9,8 @@ on:
   pull_request:
 
 env:
-  REGISTRY_IMAGE: ghcr.io/volkermauel/netbird-dashboard
+  # Publish the image to the container registry of the current repository
+  REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
   test_build_push:
