@@ -26,12 +26,16 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
+        env:
+          NODE_OPTIONS: '--max-old-space-size=2048'
 
       - run: echo '{}' > .local-config.json
 
       - name: Build
         run: npm run build
+        env:
+          NODE_OPTIONS: '--max-old-space-size=2048'
 
       - name: Run E2E tests
         run: npx start-server-and-test 'npm start' http://localhost:3000 'npx cypress run'
