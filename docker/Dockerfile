@@ -1,5 +1,11 @@
-FROM alpine:3.14
+FROM node:18 AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
 
+FROM alpine:3.14
 RUN apk add --no-cache bash curl less ca-certificates git tzdata zip gettext \
     nginx curl supervisor certbot-nginx && \
     rm -rf /var/cache/apk/* && mkdir -p /run/nginx
@@ -21,4 +27,4 @@ RUN chmod +x /usr/local/init_react_envs.sh
 # configure supervisor
 COPY docker/supervisord.conf /etc/supervisord.conf
 # copy build files
-COPY out/ /usr/share/nginx/html/
+COPY --from=build /app/out/ /usr/share/nginx/html/
