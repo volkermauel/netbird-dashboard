@@ -49,6 +49,33 @@ export default function PeerStatusCell({ peer }: Props) {
     }
   };
 
+  const removePeerApproval = async () => {
+    const choice = await confirm({
+      title: `Remove approval for '${peer.name}'?`,
+      description: "Are you sure you want to remove the approval for this peer?",
+      confirmText: "Remove",
+      cancelText: "Cancel",
+      type: "default",
+    });
+    if (choice) {
+      notify({
+        title: `Peer ${peer.name} approval removed`,
+        description:
+          "This peer must be approved again before it can connect to other peers.",
+        promise: update({
+          name: peer.name,
+          ssh: peer.ssh_enabled,
+          loginExpiration: peer.login_expiration_enabled,
+          approval_required: true,
+        }).then(() => {
+          mutate("/peers");
+          mutate("/groups");
+        }),
+        loadingMessage: "Updating peer approval...",
+      });
+    }
+  };
+
   return needsApproval ? (
     <div className={"flex gap-3 items-center text-xs"}>
       <FullTooltip
@@ -89,6 +116,20 @@ export default function PeerStatusCell({ peer }: Props) {
       )}
 
       <LoginExpiredBadge loginExpired={peer.login_expired} />
+      {canApprove && (
+        <Button
+          variant={"secondary"}
+          size={"xs"}
+          className={"h-[32px]"}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            removePeerApproval();
+          }}
+        >
+          Remove Approval
+        </Button>
+      )}
     </div>
   );
 }
