@@ -37,7 +37,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            xvfb libnss3 libatk-bridge2.0-0 libgtk-3-0 libxss1 libasound2
+            xvfb libnss3 libatk-bridge2.0-0 libgtk-3-0 libxss1 libasound2 libgbm1
 
       - name: Run E2E tests
         run: npx start-server-and-test 'npm start' http://localhost:3000 'npx cypress run'
