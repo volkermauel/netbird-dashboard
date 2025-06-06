@@ -9,7 +9,7 @@ on:
   pull_request:
 
 env:
-  REGISTRY_IMAGE: ghcr.io/netbirdio/dashboard
+  REGISTRY_IMAGE: ghcr.io/volkermauel/netbird-dashboard
 
 jobs:
   test_build_push:
