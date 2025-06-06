@@ -71,21 +71,20 @@ export default function PeerProvider({ children, peer }: Props) {
   }) => {
     return peerRequest.put(
       {
-        peerId: peer?.id,
-        name: props.name != undefined ? props.name : peer.name,
-        ssh_enabled: props.ssh != undefined ? props.ssh : peer.ssh_enabled,
+        name: props.name !== undefined ? props.name : peer.name,
+        ssh_enabled: props.ssh !== undefined ? props.ssh : peer.ssh_enabled,
         login_expiration_enabled:
-          props.loginExpiration != undefined
+          props.loginExpiration !== undefined
             ? props.loginExpiration
             : peer.login_expiration_enabled,
         inactivity_expiration_enabled:
-          props?.inactivityExpiration == undefined
-            ? undefined
-            : props.inactivityExpiration,
+          props.inactivityExpiration !== undefined
+            ? props.inactivityExpiration
+            : peer.inactivity_expiration_enabled,
         approval_required:
-          props?.approval_required == undefined
-            ? undefined
-            : props.approval_required,
+          props.approval_required !== undefined
+            ? props.approval_required
+            : peer.approval_required,
       },
       `/${peer.id}`,
     );
