@@ -8,7 +8,7 @@
     "dev": "next dev -p 3000",
     "turbo": "next dev -p 3000 --turbo",
     "build": "next build",
-    "start": "next start",
+    "start": "npx --yes serve@latest out -l 3000",
     "lint": "next lint",
     "cypress:open": "cypress open"
   },
